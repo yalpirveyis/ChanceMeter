@@ -47,7 +47,7 @@ export function HomeScreen({ navigation }) {
       },
       {
         id: "3",
-        name: "Günlük",
+        name: "Yatırım",
         img: require("../assets/category/investment.png"),
       },
       {
@@ -231,6 +231,7 @@ export function HomeScreen({ navigation }) {
           width: windowWidth,
           height: 50.1,
           marginTop: 24,
+          paddingTop: 3,
 
           flexDirection: "row",
 
@@ -372,84 +373,13 @@ export function HomeScreen({ navigation }) {
               />
             </View>
           </View>
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "center",
-              marginTop: 15,
-            }}
-          >
-            <View
-              style={{
-                width: 208,
-                height: 50,
-                borderRadius: 15,
-                backgroundColor: "white",
-                justifyContent: "center",
-                alignItems: "center",
-                paddingHorizontal: 14,
-                elevation: 5,
-              }}
-            >
-              <Text
-                style={{ fontFamily: "EuclidCircularA_Medium", fontSize: 12 }}
-              >
-                Hoş geldin Fatih. Sence bugün şanslı mısın? Hadi görelim 😊
-              </Text>
-            </View>
-            <View
-              style={{
-                width: 50,
-                height: 50,
-                backgroundColor: "#48F6A2",
-                elevation: 5,
-                borderRadius: 15,
-                marginLeft: 14,
-                flexDirection: "row",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Image
-                style={{
-                  width: 30,
-                  height: 30,
-                  transform: [{ rotateZ: "30deg" }],
-                }}
-                source={require("../assets/icons/positive-vote.png")}
-              />
-            </View>
-            <View
-              style={{
-                width: 50,
-                height: 50,
-                backgroundColor: "#F63536",
-                elevation: 5,
-                borderRadius: 15,
-                marginLeft: 14,
-                flexDirection: "row",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Image
-                style={{
-                  width: 30,
-                  height: 30,
-                  transform: [{ rotateZ: "-150deg" }],
-                }}
-                source={require("../assets/icons/positive-vote.png")}
-              />
-            </View>
-          </View>
 
           <ScrollView
             horizontal={true}
             showsHorizontalScrollIndicator={false}
             style={{
               flex: 1,
-              marginTop: 15,
+              marginTop: 12,
             }}
           >
             <TouchableOpacity
@@ -463,6 +393,7 @@ export function HomeScreen({ navigation }) {
                 marginLeft: 15,
                 elevation: 5,
                 marginBottom: 15,
+                marginVertical: 3,
               }}
               onPress={() => setHoroscope(1)}
             >
@@ -497,6 +428,8 @@ export function HomeScreen({ navigation }) {
                 alignItems: "center",
                 marginLeft: 15,
                 elevation: 5,
+
+                marginVertical: 3,
               }}
               onPress={() => setHoroscope(2)}
             >
@@ -526,6 +459,8 @@ export function HomeScreen({ navigation }) {
                 justifyContent: "center",
                 alignItems: "center",
                 marginLeft: 15,
+
+                marginVertical: 3,
                 elevation: 5,
               }}
               onPress={() => setHoroscope(3)}
@@ -557,6 +492,8 @@ export function HomeScreen({ navigation }) {
                 alignItems: "center",
                 marginLeft: 15,
                 elevation: 5,
+
+                marginVertical: 3,
               }}
               onPress={() => setHoroscope(4)}
             >
@@ -587,6 +524,8 @@ export function HomeScreen({ navigation }) {
                 alignItems: "center",
                 marginLeft: 15,
                 elevation: 5,
+
+                marginVertical: 3,
               }}
               onPress={() => setHoroscope(5)}
             >
@@ -616,6 +555,8 @@ export function HomeScreen({ navigation }) {
                 justifyContent: "center",
                 alignItems: "center",
                 marginLeft: 15,
+
+                marginVertical: 3,
                 elevation: 5,
               }}
               onPress={() => setHoroscope(6)}
@@ -647,6 +588,8 @@ export function HomeScreen({ navigation }) {
                 alignItems: "center",
                 marginLeft: 15,
                 elevation: 5,
+
+                marginVertical: 3,
               }}
               onPress={() => setHoroscope(7)}
             >
@@ -672,6 +615,8 @@ export function HomeScreen({ navigation }) {
                 backgroundColor: "#FFFFFF",
                 borderRadius: 20,
                 width: 100,
+
+                marginVertical: 3,
                 height: 110,
                 justifyContent: "center",
                 alignItems: "center",
@@ -707,6 +652,8 @@ export function HomeScreen({ navigation }) {
                 alignItems: "center",
                 marginLeft: 15,
                 elevation: 5,
+
+                marginVertical: 3,
               }}
               onPress={() => setHoroscope(9)}
             >
@@ -737,6 +684,8 @@ export function HomeScreen({ navigation }) {
                 alignItems: "center",
                 marginLeft: 15,
                 elevation: 5,
+
+                marginVertical: 3,
               }}
               onPress={() => setHoroscope(10)}
             >
@@ -767,6 +716,8 @@ export function HomeScreen({ navigation }) {
                 alignItems: "center",
                 marginLeft: 15,
                 elevation: 5,
+
+                marginVertical: 3,
               }}
               onPress={() => setHoroscope(11)}
             >
@@ -796,6 +747,8 @@ export function HomeScreen({ navigation }) {
                 justifyContent: "center",
                 alignItems: "center",
                 marginLeft: 15,
+
+                marginVertical: 3,
                 elevation: 5,
                 marginRight: 15,
               }}
@@ -862,7 +815,11 @@ export function HomeScreen({ navigation }) {
                 alignItems: "center",
                 elevation: 5,
               }}
-              onPress={() => console.log(category.category[0].name)}
+              onPress={() =>
+                navigation.navigate("MeasureChance", {
+                  id: category.category[0].id,
+                })
+              }
             >
               <Image
                 style={{ width: 60, height: 60 }}

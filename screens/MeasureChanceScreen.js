@@ -7,6 +7,7 @@ import {
   TextInput,
   ScrollView,
   Dimensions,
+  ImageBackground,
 } from "react-native";
 
 import { AdMobBanner, AdMobRewarded } from "expo-ads-admob";
@@ -15,7 +16,7 @@ import { useFonts } from "expo-font";
 
 import AsyncStorage from "@react-native-community/async-storage";
 import TextRegular from "../components/textBold";
-export function GetCoinScreen({ navigation }) {
+export function MeasureChanceScreen({ navigation, route }) {
   const windowHeight = Dimensions.get("window").height;
   const windowWidth = Dimensions.get("window").width;
 
@@ -26,10 +27,12 @@ export function GetCoinScreen({ navigation }) {
     EuclidCircularA_Bold: require("../assets/fonts/EuclidCircularA-Bold.ttf"),
   });
 
+  const { id } = route.params;
+
   const [name, setName] = useState("");
   const [age, setAge] = useState("");
   const [horoscope, setHoroscope] = useState(0);
-
+  const [chance, setChance] = useState(2);
   const [coin, setCoin] = useState(0);
 
   const [coinStore, setCoinStore] = useState("");
@@ -257,10 +260,12 @@ export function GetCoinScreen({ navigation }) {
         >
           <Image
             style={{ width: 30, height: 30 }}
-            source={require("../assets/icons/money.png")}
+            source={category.category[id - 1].img}
           />
-          <View style={{ marginLeft: 12 }}>
-            <TextRegular fontSize={16}>Coin Kazan</TextRegular>
+          <View style={{ marginLeft: 5 }}>
+            <TextRegular fontSize={16}>
+              {category.category[id - 1].name}
+            </TextRegular>
           </View>
         </View>
 
@@ -289,6 +294,8 @@ export function GetCoinScreen({ navigation }) {
       <ScrollView
         style={{
           flex: 1,
+
+          position: "relative",
         }}
       >
         <View
@@ -314,195 +321,260 @@ export function GetCoinScreen({ navigation }) {
             <Text
               style={{ fontFamily: "EuclidCircularA_Medium", fontSize: 12 }}
             >
-              Bu bölümde reklam izleyerek coin kazanabilr ve şansını ölçmeye
-              devam edebilirsin 😊
+              Şansını ölçemeye hazır mısın?😊
             </Text>
           </View>
           <View
             style={{
-              width: 338,
-              height: 110,
-              borderRadius: 15,
-              backgroundColor: "white",
-              justifyContent: "center",
-              alignItems: "center",
               flexDirection: "row",
-              paddingHorizontal: 14,
+              alignItems: "center",
+              justifyContent: "center",
               marginTop: 15,
-              elevation: 5,
             }}
           >
-            <Image
-              style={{ width: 60, height: 60 }}
-              source={require("../assets/icons/tv.png")}
-            />
-            <View style={{ width: 211, marginLeft: 15 }}>
-              <Text
-                style={{ fontFamily: "EuclidCircularA_Bold", fontSize: 12 }}
-              >
-                Reklam İzle
-              </Text>
+            <View
+              style={{
+                width: 208,
+                height: 50,
+                borderRadius: 15,
+                backgroundColor: "white",
+                justifyContent: "center",
+                alignItems: "center",
+                paddingHorizontal: 14,
+                elevation: 5,
+              }}
+            >
               <Text
                 style={{ fontFamily: "EuclidCircularA_Medium", fontSize: 12 }}
               >
-                Bu bölümde reklam izleyerek coin kazanabilr ve şansını ölçmeye
-                devam edebilirsin 😊
+                Bugün Kendini bu konuda şanslı hissediyor musun ? 😊
               </Text>
+            </View>
+            <View
+              style={{
+                width: 50,
+                height: 50,
+                backgroundColor: "#48F6A2",
+                elevation: 5,
+                borderRadius: 15,
+                marginLeft: 14,
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Image
+                style={{
+                  width: 30,
+                  height: 30,
+                  transform: [{ rotateZ: "30deg" }],
+                }}
+                source={require("../assets/icons/positive-vote.png")}
+              />
+            </View>
+            <View
+              style={{
+                width: 50,
+                height: 50,
+                backgroundColor: "#F63536",
+                elevation: 5,
+                borderRadius: 15,
+                marginLeft: 14,
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Image
+                style={{
+                  width: 30,
+                  height: 30,
+                  transform: [{ rotateZ: "-150deg" }],
+                }}
+                source={require("../assets/icons/positive-vote.png")}
+              />
             </View>
           </View>
 
           <View
             style={{
-              width: 338,
-              height: 110,
-              borderRadius: 15,
-              backgroundColor: "white",
-              justifyContent: "center",
-              alignItems: "center",
               flexDirection: "row",
-              paddingHorizontal: 14,
+              alignItems: "center",
+              justifyContent: "center",
               marginTop: 15,
-              elevation: 5,
             }}
           >
-            <Image
-              style={{ width: 60, height: 60 }}
-              source={require("../assets/icons/ads.png")}
-            />
-            <View style={{ width: 211, marginLeft: 15 }}>
-              <Text
-                style={{ fontFamily: "EuclidCircularA_Bold", fontSize: 12 }}
+            {chance == 0 ? (
+              <View
+                style={{
+                  width: 208,
+                  height: 50,
+                  borderRadius: 15,
+                  backgroundColor: "white",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  paddingHorizontal: 14,
+                  elevation: 5,
+                }}
               >
-                Siteyi Ziyaret Et
-              </Text>
-              <Text
-                style={{ fontFamily: "EuclidCircularA_Medium", fontSize: 12 }}
+                <Text
+                  style={{ fontFamily: "EuclidCircularA_Medium", fontSize: 12 }}
+                >
+                  Şansını ölçmek için basılı tut. En iyi hissettiğin anda bırak.
+                </Text>
+              </View>
+            ) : chance == 1 ? (
+              <View
+                style={{
+                  width: 208,
+                  height: 50,
+                  borderRadius: 15,
+                  backgroundColor: "white",
+
+                  elevation: 5,
+                  overflow: "hidden",
+                }}
               >
-                Siteyi ziyaret et. Bir göz at bizimde sana hediyemiz 2
-                coin😊(Çok yakında)
-              </Text>
+                <ImageBackground
+                  style={{
+                    width: 208,
+                    height: 50,
+                    justifyContent: "center",
+                    alignItems: "center",
+                    paddingHorizontal: 14,
+                  }}
+                  source={require("../assets/gifs/color.gif")}
+                >
+                  <Text
+                    style={{ fontFamily: "EuclidCircularA_Bold", fontSize: 12 }}
+                  >
+                    Şansın ölçülüyor ...
+                  </Text>
+                </ImageBackground>
+              </View>
+            ) : (
+              <View
+                style={{
+                  width: 208,
+                  height: 50,
+                  borderRadius: 15,
+                  backgroundColor: "white",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  paddingHorizontal: 14,
+                  elevation: 5,
+                }}
+              >
+                <Text
+                  style={{ fontFamily: "EuclidCircularA_Bold", fontSize: 12 }}
+                >
+                  Şansın % 87
+                </Text>
+              </View>
+            )}
+
+            <View
+              style={{
+                width: 115,
+                height: 50,
+                backgroundColor: "#FFFFFF",
+                elevation: 5,
+                borderRadius: 15,
+                marginLeft: 14,
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <Image
+                style={{
+                  width: 30,
+                  height: 30,
+                }}
+                source={require("../assets/icons/fast.png")}
+              />
             </View>
           </View>
-
+          {chance >= 2 ? (
+            <View>
+              <View
+                style={{
+                  width: 338,
+                  height: 210,
+                  borderRadius: 15,
+                  backgroundColor: "white",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  flexDirection: "row",
+                  paddingHorizontal: 14,
+                  marginTop: 15,
+                  elevation: 5,
+                  overflow: "hidden",
+                }}
+              >
+                <Image
+                  style={{ width: 338, height: 210 }}
+                  source={{
+                    uri:
+                      "https://media.giphy.com/media/l1KVaj5UcbHwrBMqI/giphy.gif",
+                  }}
+                />
+              </View>
+              <View
+                style={{
+                  width: 338,
+                  height: 50,
+                  borderRadius: 15,
+                  backgroundColor: "white",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  paddingHorizontal: 14,
+                  marginTop: 15,
+                  elevation: 5,
+                }}
+              >
+                <Text
+                  style={{ fontFamily: "EuclidCircularA_Medium", fontSize: 12 }}
+                >
+                  Sende biliyorsun ki bu ölçüm kesinlik ifade etmiyor eğlenmene
+                  bak mutlu kal 😊
+                </Text>
+              </View>
+            </View>
+          ) : null}
           <View
             style={{
               width: 338,
-              height: 110,
+              height: 120,
               borderRadius: 15,
               backgroundColor: "white",
               justifyContent: "center",
               alignItems: "center",
-              flexDirection: "row",
               paddingHorizontal: 14,
               marginTop: 15,
               elevation: 5,
+              overflow: "hidden",
             }}
           >
-            <Image
-              style={{ width: 60, height: 60 }}
-              source={require("../assets/icons/youtube.png")}
+            <Text
+              style={{
+                fontFamily: "EuclidCircularA_Medium",
+                fontSize: 12,
+                marginBottom: 15,
+              }}
+            >
+              Seni reklamlar ile sıkmak istemiyoruz ama bu reklamın ilgline
+              çekebileceğini düşünüyoruz 😊
+            </Text>
+            <AdMobBanner
+              style={{ backgroundColor: "white" }}
+              bannerSize="banner"
+              adUnitID="ca-app-pub-3940256099942544/6300978111" // Test ID, Replace with your-admob-unit-id
+              servePersonalizedAds={true}
             />
-            <View style={{ width: 211, marginLeft: 15 }}>
-              <Text
-                style={{ fontFamily: "EuclidCircularA_Bold", fontSize: 12 }}
-              >
-                Youtube Videosunu İzle{" "}
-              </Text>
-              <Text
-                style={{ fontFamily: "EuclidCircularA_Medium", fontSize: 12 }}
-              >
-                Bu videoyu izle ve kanala bir göz at. Bizimde sana hediyemiz 3
-                coin😊(Çok yakında)
-              </Text>
-            </View>
-          </View>
-
-          <View
-            style={{
-              width: 338,
-              height: 110,
-              borderRadius: 15,
-              backgroundColor: "white",
-              justifyContent: "center",
-              alignItems: "center",
-              flexDirection: "row",
-              paddingHorizontal: 14,
-              marginTop: 15,
-              elevation: 5,
-            }}
-          >
-            <Image
-              style={{ width: 60, height: 60 }}
-              source={require("../assets/icons/playstore.png")}
-            />
-            <View style={{ width: 211, marginLeft: 15 }}>
-              <Text
-                style={{ fontFamily: "EuclidCircularA_Bold", fontSize: 12 }}
-              >
-                Pro Hesaba Geç{" "}
-              </Text>
-              <Text
-                style={{ fontFamily: "EuclidCircularA_Medium", fontSize: 12 }}
-              >
-                Pro hesaba geçerek coin aramak zorunda kalmazsın 😊(Çok yakında)
-              </Text>
-            </View>
-          </View>
-
-          <View
-            style={{
-              width: 338,
-              height: 110,
-              borderRadius: 15,
-              backgroundColor: "white",
-              justifyContent: "center",
-              alignItems: "center",
-              flexDirection: "row",
-              paddingHorizontal: 14,
-              marginTop: 15,
-              elevation: 5,
-            }}
-          >
-            <Image
-              style={{ width: 60, height: 60 }}
-              source={require("../assets/icons/debit-card.png")}
-            />
-            <View style={{ width: 211, marginLeft: 15 }}>
-              <Text
-                style={{ fontFamily: "EuclidCircularA_Bold", fontSize: 12 }}
-              >
-                Kredi Kartı
-              </Text>
-              <Text
-                style={{ fontFamily: "EuclidCircularA_Medium", fontSize: 12 }}
-              >
-                Kredi kartın ile dilediğince coin alabilirsin😊(Çok yakında)
-              </Text>
-            </View>
           </View>
         </View>
       </ScrollView>
-      {/*
-      
-       <View
-        style={{
-          width: 320,
-          borderRadius: 20,
-          height: 80,
-          alignItems: "center",
-          justifyContent: "center",
-          alignSelf: "center",
-        }}
-      >
-        <AdMobBanner
-          style={{ borderRadius: 30 }}
-          bannerSize="smartBannerPortrait"
-          adUnitID="ca-app-pub-3940256099942544/6300978111" // Test ID, Replace with your-admob-unit-id
-          servePersonalizedAds // true or false
-        />
-      </View>
-      
-      */}
     </View>
   );
 }
