@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "ChanceMeter",
+    "name": "Şans Metre",
     "slug": "ChanceMeter",
     "version": "1.0.0",
     "orientation": "portrait",
@@ -8,16 +8,14 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#140149"
     },
-    
+
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    
+    "assetBundlePatterns": ["**/*"],
+
     "ios": {
       "supportsTablet": true
     },
@@ -26,12 +24,9 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF",
         "config": {
-          "googleMobileAdsAppId": "ca-app-pub-3940256099942544~3347511713" 
+          "googleMobileAdsAppId": "ca-app-pub-3940256099942544~3347511713"
         }
       }
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
     }
   }
 }

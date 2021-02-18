@@ -8,6 +8,7 @@ import {
   ScrollView,
   Dimensions,
   ImageBackground,
+  TouchableWithoutFeedback,
 } from "react-native";
 
 import { AdMobBanner, AdMobRewarded } from "expo-ads-admob";
@@ -27,14 +28,50 @@ export function MeasureChanceScreen({ navigation, route }) {
     EuclidCircularA_Bold: require("../assets/fonts/EuclidCircularA-Bold.ttf"),
   });
 
-  const { id } = route.params;
-
+  const { categoryId, horoscopeId, horoscopeName } = route.params;
+  const horoscopeNameEng = route.params.horoscopeName;
+  const [categoryPoint, setCategoryPoint] = useState(0);
+  const value = "kova";
   const [name, setName] = useState("");
   const [age, setAge] = useState("");
   const [horoscope, setHoroscope] = useState(0);
-  const [chance, setChance] = useState(2);
+  const [chanceStatus, setChanceStatus] = useState(0);
+  const [ownChance, setOwnChance] = useState(1);
+  const [ownChanceYes, setOwnChanceYes] = useState("#FFFFFF");
+  const [ownChanceNo, setOwnChanceNo] = useState("#FFFFFF");
+  const [chanceDataWidth, setchanceDataWidth] = useState(208);
   const [coin, setCoin] = useState(0);
+  const [isLoading, setLoading] = useState(true);
+  const [horoscopesData, setHoroscopesData] = useState([]);
+  const [categories, setCategories] = useState([]);
+  const [months, setMonths] = useState([]);
+  const [days, setDays] = useState([]);
+  const [chance, setChance] = useState([]);
+  const [gif, setGif] = useState([]);
+  const [chancePointDaily, setChancePointDaily] = useState(0);
 
+  var d = new Date();
+  var n = d.getDay();
+  var date = new Date().getDate(); //To get the Current Date
+  var month = new Date().getMonth() + 1; //To get the Current Month
+  var year = new Date().getFullYear(); //To get the Current Year
+  var hours = new Date().getHours(); //To get the Current Hours
+  var min = new Date().getMinutes(); //To get the Current Minutes
+  var sec = new Date().getSeconds();
+
+  function chancePointDailyFunc() {
+    categories.length > 0
+      ? setChancePointDaily(
+          Math.ceil(
+            categories[categoryId].horoscope[horoscopeId] *
+              (Math.floor(Math.random() * 10) / 20 + 2.5) *
+              days[n].horoscope[horoscopeId] *
+              months[month].horoscope[horoscopeId] *
+              ownChance
+          )
+        )
+      : null;
+  }
   const [coinStore, setCoinStore] = useState("");
   const category = {
     category: [
@@ -192,8 +229,8 @@ export function MeasureChanceScreen({ navigation, route }) {
       },
     ],
   };
-  console.log(windowHeight);
-  console.log(windowWidth);
+  /*
+
   useEffect(() => {
     AsyncStorage.getItem("coinStore").then((value) => setCoinStore(value));
     AdMobRewarded.setAdUnitID("ca-app-pub-3940256099942544/5224354917"); // Test ID, Replace with your-admob-unit-id
@@ -208,7 +245,41 @@ export function MeasureChanceScreen({ navigation, route }) {
       console.log("erken çıktın");
     });
   });
+*/
+  useEffect(() => {
+    fetch("https://www.creatooll.com/category.json")
+      .then((response) => response.json())
+      .then((json) => {
+        setHoroscopesData(json.horoscopesData), setCategories(json.categories);
+        setMonths(json.months),
+          setDays(json.days),
+          setChance(json.chance),
+          setGif(json.gif);
+      })
 
+      .catch((error) => console.error(error))
+      .finally(() => setLoading(false));
+  }, []);
+
+  if (isLoading == true) {
+    if (!loaded) {
+      return (
+        <View
+          style={{
+            width: windowWidth,
+            height: windowHeight,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Image
+            style={{ width: 150, height: 150 }}
+            source={require("../assets/gifs/loading.gif")}
+          />
+        </View>
+      );
+    }
+  }
   return (
     <View style={{ flex: 1, backgroundColor: "#FFFFFF" }}>
       <View
@@ -260,11 +331,11 @@ export function MeasureChanceScreen({ navigation, route }) {
         >
           <Image
             style={{ width: 30, height: 30 }}
-            source={category.category[id - 1].img}
+            source={category.category[categoryId - 1].img}
           />
           <View style={{ marginLeft: 5 }}>
             <TextRegular fontSize={16}>
-              {category.category[id - 1].name}
+              {category.category[categoryId - 1].name}
             </TextRegular>
           </View>
         </View>
@@ -310,7 +381,7 @@ export function MeasureChanceScreen({ navigation, route }) {
               width: 338,
               height: 50,
               borderRadius: 15,
-              backgroundColor: "white",
+              backgroundColor: "#FFFFFF",
               justifyContent: "center",
               alignItems: "center",
               paddingHorizontal: 14,
@@ -324,6 +395,33 @@ export function MeasureChanceScreen({ navigation, route }) {
               Şansını ölçemeye hazır mısın?😊
             </Text>
           </View>
+          {horoscopeId == 0 ? (
+            <View
+              style={{
+                width: 338,
+                height: 50,
+                borderRadius: 15,
+                backgroundColor: "#F63536",
+                justifyContent: "center",
+                alignItems: "center",
+                paddingHorizontal: 14,
+                marginTop: 15,
+                elevation: 5,
+              }}
+            >
+              <Text
+                style={{
+                  fontFamily: "EuclidCircularA_Medium",
+                  fontSize: 12,
+                  color: "#FFFFFF",
+                  textAlign: "center",
+                }}
+              >
+                Bir önceki sayfadan burcunu seçersen sana daha doğru sonuçlar
+                gösterebiliriz😊
+              </Text>
+            </View>
+          ) : null}
           <View
             style={{
               flexDirection: "row",
@@ -347,20 +445,25 @@ export function MeasureChanceScreen({ navigation, route }) {
               <Text
                 style={{ fontFamily: "EuclidCircularA_Medium", fontSize: 12 }}
               >
-                Bugün Kendini bu konuda şanslı hissediyor musun ? 😊
+                Bugün kendini bu konuda şanslı hissediyor musun ? 😊
               </Text>
             </View>
-            <View
+            <TouchableOpacity
               style={{
                 width: 50,
                 height: 50,
-                backgroundColor: "#48F6A2",
+                backgroundColor: ownChanceYes,
                 elevation: 5,
                 borderRadius: 15,
                 marginLeft: 14,
                 flexDirection: "row",
                 justifyContent: "center",
                 alignItems: "center",
+              }}
+              onPress={() => {
+                setOwnChance(1.234);
+                setOwnChanceYes("#48F6A2");
+                setOwnChanceNo("#FFFFFF");
               }}
             >
               <Image
@@ -371,18 +474,23 @@ export function MeasureChanceScreen({ navigation, route }) {
                 }}
                 source={require("../assets/icons/positive-vote.png")}
               />
-            </View>
-            <View
+            </TouchableOpacity>
+            <TouchableOpacity
               style={{
                 width: 50,
                 height: 50,
-                backgroundColor: "#F63536",
+                backgroundColor: ownChanceNo,
                 elevation: 5,
                 borderRadius: 15,
                 marginLeft: 14,
                 flexDirection: "row",
                 justifyContent: "center",
                 alignItems: "center",
+              }}
+              onPress={() => {
+                setOwnChance(1);
+                setOwnChanceNo("#F63536");
+                setOwnChanceYes("#FFFFFF");
               }}
             >
               <Image
@@ -393,7 +501,7 @@ export function MeasureChanceScreen({ navigation, route }) {
                 }}
                 source={require("../assets/icons/positive-vote.png")}
               />
-            </View>
+            </TouchableOpacity>
           </View>
 
           <View
@@ -404,7 +512,7 @@ export function MeasureChanceScreen({ navigation, route }) {
               marginTop: 15,
             }}
           >
-            {chance == 0 ? (
+            {chanceStatus == 0 ? (
               <View
                 style={{
                   width: 208,
@@ -423,10 +531,10 @@ export function MeasureChanceScreen({ navigation, route }) {
                   Şansını ölçmek için basılı tut. En iyi hissettiğin anda bırak.
                 </Text>
               </View>
-            ) : chance == 1 ? (
+            ) : chanceStatus == 1 ? (
               <View
                 style={{
-                  width: 208,
+                  width: chanceDataWidth,
                   height: 50,
                   borderRadius: 15,
                   backgroundColor: "white",
@@ -437,7 +545,7 @@ export function MeasureChanceScreen({ navigation, route }) {
               >
                 <ImageBackground
                   style={{
-                    width: 208,
+                    width: chanceDataWidth,
                     height: 50,
                     justifyContent: "center",
                     alignItems: "center",
@@ -455,7 +563,7 @@ export function MeasureChanceScreen({ navigation, route }) {
             ) : (
               <View
                 style={{
-                  width: 208,
+                  width: chanceDataWidth,
                   height: 50,
                   borderRadius: 15,
                   backgroundColor: "white",
@@ -468,34 +576,47 @@ export function MeasureChanceScreen({ navigation, route }) {
                 <Text
                   style={{ fontFamily: "EuclidCircularA_Bold", fontSize: 12 }}
                 >
-                  Şansın % 87
+                  Şansın % {chancePointDaily > 0 ? chancePointDaily : null}
                 </Text>
               </View>
             )}
-
-            <View
-              style={{
-                width: 115,
-                height: 50,
-                backgroundColor: "#FFFFFF",
-                elevation: 5,
-                borderRadius: 15,
-                marginLeft: 14,
-                flexDirection: "row",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <Image
-                style={{
-                  width: 30,
-                  height: 30,
+            {chanceStatus == 0 ||
+            (chanceStatus == 1 && categories.length > 0) ? (
+              <TouchableWithoutFeedback
+                onPressIn={() => {
+                  setChanceStatus(1);
+                  chancePointDailyFunc();
                 }}
-                source={require("../assets/icons/fast.png")}
-              />
-            </View>
+                onPressOut={() => {
+                  setChanceStatus(2);
+                  setchanceDataWidth(338);
+                }}
+              >
+                <View
+                  style={{
+                    width: 115,
+                    height: 50,
+                    backgroundColor: "#FFFFFF",
+                    elevation: 5,
+                    borderRadius: 15,
+                    marginLeft: 14,
+                    flexDirection: "row",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <Image
+                    style={{
+                      width: 30,
+                      height: 30,
+                    }}
+                    source={require("../assets/icons/fast.png")}
+                  />
+                </View>
+              </TouchableWithoutFeedback>
+            ) : null}
           </View>
-          {chance >= 2 ? (
+          {chanceStatus == 2 ? (
             <View>
               <View
                 style={{
