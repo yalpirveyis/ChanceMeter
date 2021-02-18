@@ -7,7 +7,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { HomeScreen } from "./screens/HomeScreen";
 import { GetCoinScreen } from "./screens/GetCoinScreen";
 import { MeasureChanceScreen } from "./screens/MeasureChanceScreen";
-import { Test } from "./screens/Test";
+import { ShowAdsScreen } from "./screens/ShowAdsScreen";
 
 const Stack = createStackNavigator();
 
@@ -37,8 +37,8 @@ function App() {
           }}
         />
         <Stack.Screen
-          name="Test"
-          component={Test}
+          name="ShowAds"
+          component={ShowAdsScreen}
           options={() => {
             return { headerShown: false };
           }}
