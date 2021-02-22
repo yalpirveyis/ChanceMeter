@@ -9,6 +9,8 @@ import {
   Dimensions,
 } from "react-native";
 import { useFonts } from "expo-font";
+
+import { AdMobBanner, AdMobRewarded } from "expo-ads-admob";
 export function HomeScreen({ navigation }) {
   const windowHeight = Dimensions.get("window").height;
   const windowWidth = Dimensions.get("window").width;
@@ -160,23 +162,35 @@ export function HomeScreen({ navigation }) {
       .catch((error) => console.error(error))
       .finally(() => setLoading(false));
   }, []);
-
-  if (isLoading) {
-    return (
-      <View
-        style={{
-          width: windowWidth,
-          height: windowHeight,
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <Image
-          style={{ width: 150, height: 150 }}
-          source={require("../assets/gifs/loading.gif")}
-        />
-      </View>
-    );
+  if (isLoading == true) {
+    if (!loaded) {
+      return (
+        <View
+          style={{
+            width: windowWidth,
+            height: windowHeight,
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Image
+            style={{ width: 150, height: 150 }}
+            source={require("../assets/gifs/loading.gif")}
+          />
+          <Text
+            style={{
+              fontFamily: "EuclidCircularA_Medium",
+              fontSize: 16,
+              textAlign: "center",
+              width: 300,
+              marginTop: 20,
+            }}
+          >
+            Sürpriz dolu bir güne hazır mısınız ? 😊
+          </Text>
+        </View>
+      );
+    }
   }
   return (
     <View style={{ flex: 1, backgroundColor: "#FFFFFF" }}>
@@ -239,7 +253,7 @@ export function HomeScreen({ navigation }) {
                 textAlign: "center",
               }}
             >
-              2
+              99
             </Text>
           </View>
         </View>
@@ -1274,7 +1288,37 @@ export function HomeScreen({ navigation }) {
               </Text>
             </TouchableOpacity>
           </View>
-
+          <View
+            style={{
+              width: 336,
+              height: 120,
+              borderRadius: 15,
+              backgroundColor: "white",
+              justifyContent: "center",
+              alignItems: "center",
+              paddingHorizontal: 14,
+              marginTop: 15,
+              elevation: 5,
+              overflow: "hidden",
+            }}
+          >
+            <Text
+              style={{
+                fontFamily: "EuclidCircularA_Medium",
+                fontSize: 12,
+                marginBottom: 15,
+              }}
+            >
+              Seni reklamlar ile sıkmak istemiyoruz ama bu reklamın ilgline
+              çekebileceğini düşünüyoruz 😊
+            </Text>
+            <AdMobBanner
+              style={{ backgroundColor: "white" }}
+              bannerSize="banner"
+              adUnitID="ca-app-pub-2042926053262017/9919877960" // Test ID, Replace with your-admob-unit-id
+              servePersonalizedAds={true}
+            />
+          </View>
           <View
             style={{
               width: 330,

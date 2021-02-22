@@ -9,12 +9,8 @@ import {
   Dimensions,
 } from "react-native";
 
-import { AdMobBanner, AdMobRewarded } from "expo-ads-admob";
-import { Picker } from "@react-native-picker/picker";
 import { useFonts } from "expo-font";
 
-import AsyncStorage from "@react-native-community/async-storage";
-import TextRegular from "../components/textBold";
 export function GetCoinScreen({ navigation }) {
   const windowHeight = Dimensions.get("window").height;
   const windowWidth = Dimensions.get("window").width;
@@ -25,17 +21,34 @@ export function GetCoinScreen({ navigation }) {
     EuclidCircularA_Medium: require("../assets/fonts/EuclidCircularA-Medium.ttf"),
     EuclidCircularA_Bold: require("../assets/fonts/EuclidCircularA-Bold.ttf"),
   });
-
-  const [name, setName] = useState("");
-  const [age, setAge] = useState("");
-  const [horoscope, setHoroscope] = useState(0);
-
-  const [coin, setCoin] = useState(0);
-
-  const [coinStore, setCoinStore] = useState("");
-
-  console.log(windowHeight);
-  console.log(windowWidth);
+  if (!loaded) {
+    return (
+      <View
+        style={{
+          width: windowWidth,
+          height: windowHeight,
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Image
+          style={{ width: 150, height: 150 }}
+          source={require("../assets/gifs/loading.gif")}
+        />
+        <Text
+          style={{
+            fontFamily: "EuclidCircularA_Medium",
+            fontSize: 16,
+            textAlign: "center",
+            width: 300,
+            marginTop: 20,
+          }}
+        >
+          Sürpriz dolu bir güne hazır mısınız ? 😊
+        </Text>
+      </View>
+    );
+  }
 
   return (
     <View style={{ flex: 1, backgroundColor: "#FFFFFF" }}>
@@ -91,7 +104,17 @@ export function GetCoinScreen({ navigation }) {
             source={require("../assets/icons/money.png")}
           />
           <View style={{ marginLeft: 12 }}>
-            <TextRegular fontSize={16}>Coin Kazan</TextRegular>
+            <Text
+              style={{
+                color: "black",
+                fontSize: 16,
+                marginTop: 5,
+                fontFamily: "EuclidCircularA_Bold",
+                textAlign: "center",
+              }}
+            >
+              Coin Kazan
+            </Text>
           </View>
         </View>
 
@@ -112,8 +135,18 @@ export function GetCoinScreen({ navigation }) {
             style={{ width: 30, height: 30 }}
             source={require("../assets/icons/wallet.png")}
           />
-          <View style={{ marginLeft: 8, marginTop: 8 }}>
-            <TextRegular fontSize={26}>3</TextRegular>
+          <View style={{ marginLeft: 8, marginTop: 1 }}>
+            <Text
+              style={{
+                color: "black",
+                fontSize: 23,
+                marginTop: 5,
+                fontFamily: "EuclidCircularA_Bold",
+                textAlign: "center",
+              }}
+            >
+              99
+            </Text>
           </View>
         </View>
       </View>
@@ -149,7 +182,32 @@ export function GetCoinScreen({ navigation }) {
               devam edebilirsin 😊
             </Text>
           </View>
-          <TouchableOpacity
+          <View
+            style={{
+              width: 338,
+              height: 50,
+              borderRadius: 15,
+              backgroundColor: "#F63536",
+              justifyContent: "center",
+              alignItems: "center",
+              paddingHorizontal: 14,
+              marginTop: 15,
+              elevation: 5,
+            }}
+          >
+            <Text
+              style={{
+                color: "#FFFFFF",
+                fontSize: 12,
+                marginTop: 5,
+                fontFamily: "EuclidCircularA_Medium",
+              }}
+            >
+              Şuanda geliştirmelerimiz devam ettiği için sınırsız şans ölçümü
+              yapabilirsiniz.
+            </Text>
+          </View>
+          <View
             style={{
               width: 338,
               height: 110,
@@ -162,7 +220,6 @@ export function GetCoinScreen({ navigation }) {
               marginTop: 15,
               elevation: 5,
             }}
-            onPress={() => navigation.navigate("ShowAds")}
           >
             <Image
               style={{ width: 60, height: 60 }}
@@ -187,10 +244,10 @@ export function GetCoinScreen({ navigation }) {
                   color: "red",
                 }}
               >
-                + 2 Coin
+                Çok yakında
               </Text>
             </View>
-          </TouchableOpacity>
+          </View>
 
           <View
             style={{

@@ -11,7 +11,7 @@ import {
   TouchableWithoutFeedback,
 } from "react-native";
 
-import { AdMobBanner, AdMobInterstitial } from "expo-ads-admob";
+import { AdMobBanner, AdMobRewarded } from "expo-ads-admob";
 import { useFonts } from "expo-font";
 
 import TextRegular from "../components/textBold";
@@ -183,6 +183,13 @@ export function MeasureChanceScreen({ navigation, route }) {
 
       .catch((error) => console.error(error))
       .finally(() => setLoading(false));
+    AdMobRewarded.setAdUnitID("ca-app-pub-2042926053262017/4120756372"); // Test ID, Replace with your-admob-unit-id
+
+    AdMobRewarded.addEventListener("rewardedVideoDidRewardUser", () => {});
+    AdMobRewarded.addEventListener("rewardedVideoDidClose", () => {});
+    AdMobRewarded.requestAdAsync({ servePersonalizedAds: true }).then(
+      AdMobRewarded.showAdAsync()
+    );
   }, []);
 
   if (isLoading == true) {
@@ -200,6 +207,17 @@ export function MeasureChanceScreen({ navigation, route }) {
             style={{ width: 150, height: 150 }}
             source={require("../assets/gifs/loading.gif")}
           />
+          <Text
+            style={{
+              fontFamily: "EuclidCircularA_Medium",
+              fontSize: 16,
+              textAlign: "center",
+              width: 300,
+              marginTop: 20,
+            }}
+          >
+            Sürpriz dolu bir güne hazır mısınız ? 😊
+          </Text>
         </View>
       );
     }
@@ -258,9 +276,17 @@ export function MeasureChanceScreen({ navigation, route }) {
             source={category.category[categoryId - 1].img}
           />
           <View style={{ marginLeft: 5 }}>
-            <TextRegular fontSize={16}>
+            <Text
+              style={{
+                color: "black",
+                fontSize: 16,
+                marginTop: 5,
+                fontFamily: "EuclidCircularA_Bold",
+                textAlign: "center",
+              }}
+            >
               {category.category[categoryId - 1].name}
-            </TextRegular>
+            </Text>
           </View>
         </View>
 
@@ -614,7 +640,7 @@ export function MeasureChanceScreen({ navigation, route }) {
             <AdMobBanner
               style={{ backgroundColor: "white" }}
               bannerSize="banner"
-              adUnitID="ca-app-pub-3940256099942544/6300978111" // Test ID, Replace with your-admob-unit-id
+              adUnitID="ca-app-pub-2042926053262017/4475979592" // Test ID, Replace with your-admob-unit-id
               servePersonalizedAds={true}
             />
           </View>
