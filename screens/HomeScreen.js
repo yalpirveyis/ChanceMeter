@@ -179,7 +179,6 @@ export function HomeScreen({ navigation }) {
           />
           <Text
             style={{
-              fontFamily: "EuclidCircularA_Medium",
               fontSize: 16,
               textAlign: "center",
               width: 300,

@@ -40,6 +40,9 @@ export function MeasureChanceScreen({ navigation, route }) {
   const [days, setDays] = useState([]);
   const [chance, setChance] = useState([]);
   const [gif, setGif] = useState([]);
+  const [CurrentGif, setCurrentGif] = useState(
+    "https://media.giphy.com/media/EizPK3InQbrNK/giphy.gif"
+  );
   const [chancePointDaily, setChancePointDaily] = useState(0);
 
   var d = new Date();
@@ -52,6 +55,13 @@ export function MeasureChanceScreen({ navigation, route }) {
   var sec = new Date().getSeconds();
 
   function chancePointDailyFunc() {
+    let a = Math.ceil(
+      categories[categoryId].horoscope[horoscopeId] *
+        (Math.floor(Math.random() * 10) / 20 + 2.5) *
+        days[n].horoscope[horoscopeId] *
+        months[month].horoscope[horoscopeId] *
+        ownChance
+    );
     categories.length > 0
       ? setChancePointDaily(
           Math.ceil(
@@ -63,7 +73,22 @@ export function MeasureChanceScreen({ navigation, route }) {
           )
         )
       : null;
+
+    if (a >= 0 && a <= 20) {
+      setCurrentGif(chance[0].url);
+    } else if (a >= 21 && a <= 40) {
+      setCurrentGif(chance[1].url);
+    } else if (a >= 41 && a <= 60) {
+      setCurrentGif(chance[2].url);
+    } else if (a >= 61 && a <= 80) {
+      setCurrentGif(chance[3].url);
+    } else if (a >= 81 && a <= 90) {
+      setCurrentGif(chance[4].url);
+    } else if (a >= 91 && a <= 100) {
+      setCurrentGif(chance[5].url);
+    } else null;
   }
+
   const category = {
     category: [
       {
@@ -307,8 +332,18 @@ export function MeasureChanceScreen({ navigation, route }) {
             style={{ width: 30, height: 30 }}
             source={require("../assets/icons/wallet.png")}
           />
-          <View style={{ marginLeft: 8, marginTop: 8 }}>
-            <TextRegular fontSize={26}>3</TextRegular>
+          <View style={{ marginLeft: 8, marginTop: 1 }}>
+            <Text
+              style={{
+                color: "black",
+                fontSize: 23,
+                marginTop: 5,
+                fontFamily: "EuclidCircularA_Bold",
+                textAlign: "center",
+              }}
+            >
+              99
+            </Text>
           </View>
         </View>
       </View>
@@ -438,7 +473,7 @@ export function MeasureChanceScreen({ navigation, route }) {
                 alignItems: "center",
               }}
               onPress={() => {
-                setOwnChance(1);
+                setOwnChance(1.0001);
                 setOwnChanceNo("#F63536");
                 setOwnChanceYes("#FFFFFF");
               }}
@@ -453,7 +488,31 @@ export function MeasureChanceScreen({ navigation, route }) {
               />
             </TouchableOpacity>
           </View>
-
+          {ownChance == 1 ? (
+            <View
+              style={{
+                width: 330,
+                padding: 12,
+                elevation: 5,
+                borderRadius: 15,
+                backgroundColor: "#F63536",
+                alignSelf: "center",
+                marginTop: 15,
+              }}
+            >
+              <Text
+                style={{
+                  color: "#FFFFFF",
+                  fontSize: 12,
+                  fontFamily: "EuclidCircularA_Medium",
+                  textAlign: "center",
+                }}
+              >
+                Eğer şanslı hissedip hissetmediğini işaretlersen daha doğru
+                sonuçlar verebiliriz 😊
+              </Text>
+            </View>
+          ) : null}
           <View
             style={{
               flexDirection: "row",
@@ -586,11 +645,11 @@ export function MeasureChanceScreen({ navigation, route }) {
                 <Image
                   style={{ width: 338, height: 210 }}
                   source={{
-                    uri:
-                      "https://media.giphy.com/media/l1KVaj5UcbHwrBMqI/giphy.gif",
+                    uri: CurrentGif,
                   }}
                 />
               </View>
+
               <View
                 style={{
                   width: 338,
@@ -607,8 +666,19 @@ export function MeasureChanceScreen({ navigation, route }) {
                 <Text
                   style={{ fontFamily: "EuclidCircularA_Medium", fontSize: 12 }}
                 >
-                  Sende biliyorsun ki bu ölçüm kesinlik ifade etmiyor eğlenmene
-                  bak mutlu kal 😊
+                  {chancePointDaily > 0 && chancePointDaily <= 20
+                    ? chance[0].horoscopeNames[horoscopeId]
+                    : chancePointDaily >= 21 && chancePointDaily <= 40
+                    ? chance[1].horoscopeNames[horoscopeId]
+                    : chancePointDaily >= 41 && chancePointDaily <= 60
+                    ? chance[2].horoscopeNames[horoscopeId]
+                    : chancePointDaily >= 61 && chancePointDaily <= 80
+                    ? chance[3].horoscopeNames[horoscopeId]
+                    : chancePointDaily >= 81 && chancePointDaily <= 90
+                    ? chance[4].horoscopeNames[horoscopeId]
+                    : chancePointDaily >= 91 && chancePointDaily <= 100
+                    ? chance[5].horoscopeNames[horoscopeId]
+                    : null}
                 </Text>
               </View>
             </View>
